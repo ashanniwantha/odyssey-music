@@ -42,3 +42,6 @@ Desktop.ini
 
 # Log Files
 *.log
+
+# Secret Keys
+*.pem
