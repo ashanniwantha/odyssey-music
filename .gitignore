@@ -1,0 +1,44 @@
+# Architecture/Compiled Binaries
+bin/
+dist/
+ticket-book
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test Coverage and Profiles
+*.out
+*.prof
+*.test
+ctx
+
+# Environment Variables (Crucial for Security)
+.env
+.env.local
+.env.*.local
+
+# Docker Local Data (If you ever use local bind mounts instead of named volumes)
+.docker/
+pgdata/
+
+# JetBrains IDEs (GoLand, IntelliJ, etc.)
+.idea/
+*.iwb
+*.iws
+
+# Visual Studio Code
+.vscode/
+!.vscode/extensions.json
+
+# Operating System Specific Clutter
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Log Files
+*.log
