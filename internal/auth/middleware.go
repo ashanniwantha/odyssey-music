@@ -51,7 +51,8 @@ func Authenticate(tokenGen *TokenGenerator) func(http.Handler) http.Handler {
 			}
 			tokenStr := strings.TrimSpace(parts[1])
 
-			userID, username, role, err := tokenGen.ValidateToken(tokenStr)
+			claims := &Claims{}
+			claims, err := tokenGen.ValidateAccessToken(tokenStr)
 			if err != nil {
 				http.Error(w, "invalid or expired token", http.StatusUnauthorized)
 				return
