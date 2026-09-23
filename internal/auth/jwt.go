@@ -49,8 +49,8 @@ func NewTokenGenerator(
 	}
 }
 
-// GenerateToken signs a new token using the Private Key for the user and session.
-func (g *TokenGenerator) GenerateToken(userID, sessionID uuid.UUID) (string, error) {
+// GenerateAccessToken signs a new token using the Private Key for the user and session.
+func (g *TokenGenerator) GenerateAccessToken(userID, sessionID uuid.UUID) (string, error) {
 	claims := Claims{
 		RegisteredClaims: jwt.RegisteredClaims{
 			Issuer:    Issuer,
