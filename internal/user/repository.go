@@ -3,7 +3,9 @@ package user
 import (
 	"context"
 
+	"github.com/ashanniwantha/odyssey-music/internal/database"
 	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5/pgxpool"
 )
 
 // ===========================================================
@@ -67,3 +69,26 @@ type Repository interface {
 // POSTGRES IMPLEMENTATION
 // ===========================================================
 //
+// postgresRepository is the pgx-backed implementation of Repository.
+// Construct it once at startup with NewRespository and share the
+// instance process-wide. It is safe for concurrent use because the
+// underlying pgxpool.pool serializes access to connections internally.
+type postgresRepository struct {
+	pool *pgxpool.Pool
+}
+
+// NewRepository wires a pgxpool into a Repository.
+func NewRepository(pool *pgxpool.Pool) Repository {
+	return &postgresRepository{pool: pool}
+}
+
+// conn returns the transaction currently attached to ctx, or the pool when no transaction going on.
+// Every query in this file is issues through this helper - which is what lets the service layer
+// wrap a series of respository calls in a single transaction without any of those calls needing to
+// know they are inside one. This is made possible by the DBXT type internal/database.
+func (r *postgresRepository) conn(ctx context.Context) database.DBTX {
+	if tx := database.TxFromContext(ctx); tx != nil {
+		return tx
+	}
+	return r.pool
+}
